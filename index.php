@@ -21,6 +21,11 @@
 <body>
 	<div class="container-xxl">
 		<?php
+		// read json file
+		$json = file_get_contents('ds_truyen.json');
+		// decode json to array
+		$data = json_decode($json, true);
+
 		// lấy dữ liệu từ form
 		if (isset($_POST) && !empty($_POST)) {
 			echo '<h4>BẠN VỪA SUBMIT FORM VỚI DỮ LIỆU:</h4>';
@@ -28,6 +33,11 @@
 			print(json_encode($_POST, JSON_PRETTY_PRINT));
 			echo '</pre>';
 		}
+
+		// echo '<h4>DỮ LIỆU TRUYỆN:</h4>';
+		// echo '<pre>';
+		// print(json_encode($data, JSON_PRETTY_PRINT));
+		// echo '</pre>';
 		?>
 
 		<h1 class="mb-4">Example search</h1>
