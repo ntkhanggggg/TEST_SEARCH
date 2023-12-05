@@ -11,7 +11,7 @@
 		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-	</script>
+		</script>
 
 	<!-- import jquery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -20,121 +20,32 @@
 
 <body>
 	<div class="container-xxl">
-		<?php
-		// read json file
-		$json = file_get_contents('ds_truyen.json');
-		// decode json to array
-		$data = json_decode($json, true);
-
-		// lấy dữ liệu từ form
-		if (isset($_POST) && !empty($_POST)) {
-			echo '<h4>BẠN VỪA SUBMIT FORM VỚI DỮ LIỆU:</h4>';
-			echo '<pre>';
-			print(json_encode($_POST, JSON_PRETTY_PRINT));
-			echo '</pre>';
-		}
-
-		// echo '<h4>DỮ LIỆU TRUYỆN:</h4>';
-		// echo '<pre>';
-		// print(json_encode($data, JSON_PRETTY_PRINT));
-		// echo '</pre>';
-		
-		$truyen_tim_duoc = [];
-		// lấy dữ liệu từ form
-		$tinh_trang_form = $_POST['tinh_trang'] ?? [];
-		$ending_form = $_POST['ending'] ?? [];
-		$tags_form = $_POST['tags'] ?? [];
-		$ten_truyen_form = $_POST['ten_truyen'] ?? '';
-
-		if (isset($_POST) && !empty($_POST)) {
-			// lặp qua tất cả các truyện
-			foreach ($data as $truyen) {
-				// lấy tình trạng của truyện
-				$tinh_trang = $truyen['tinh_trang'];
-				// lấy kết thúc của truyện
-				$ending = $truyen['ending'];
-				// lấy tag của truyện
-				$tags = $truyen['tags'];
-				// lấy tên truyện
-				$ten_truyen = $truyen['ten_truyen'];
-
-
-				// kiểm tra tình trạng
-				$check_tinh_trang = false;
-				// kiểm tra nếu tất cả các tình trạng của form có trong tình trạng của truyện thì đánh dấu là true
-				
-
-				// kiểm tra kết thúc
-				$check_ending = false;
-				// kiểm tra nếu tất cả các kết thúc của form có trong kết thúc của truyện thì đánh dấu là true
-				
-
-				// kiểm tra tag
-				$check_tags = true;
-				// kiểm tra nếu tất cả các tag của form có trong tag của truyện thì đánh dấu là true
-				if (count($tags_form) > 0) {
-					foreach ($tags_form as $item) {
-						if (!in_array($item, $tags)) {
-							$check_tags = false;
-							break;
-						}
-					}
-				}
-
-				// kiểm tra tên truyện
-				$check_ten_truyen = true;
-				// kiểm tra nếu tên truyện chứa tên truyện form thì đánh dấu là true
-				if (strlen($ten_truyen_form) > 0) {
-					if (!strpos($ten_truyen, $ten_truyen_form)) {
-						$check_ten_truyen = false;
-					}
-				}
-
-				// nếu tất cả các điều kiện đều đúng thì push vào mảng truyện tìm được
-				if ($check_tinh_trang && $check_ending && $check_tags && $check_ten_truyen) {
-					$truyen_tim_duoc[] = $truyen;
-				}
-			}
-			echo '<h4>DỮ LIỆU TRUYỆN TÌM ĐƯỢC (CÓ ' . count($truyen_tim_duoc) . ' TRUYỆN):</h4>';
-			echo '<div class="row">';
-			foreach ($truyen_tim_duoc as $truyen) {
-				echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3">';
-				echo '<div class="card mb-3">';
-				echo '<div class="card-body">';
-				echo '<h5 class="card-title">' . $truyen['ten_truyen'] . '</h5>';
-				echo '<p class="card-text">Tình trạng: ' . $truyen['tinh_trang'] . '</p>';
-				echo '<p class="card-text">Kết thúc: ' . $truyen['ending'] . '</p>';
-				echo '<p class="card-text">Tags: ' . implode(', ', $truyen['tags']) . '</p>';
-				echo '<p class="card-text">Ngày tạo: ' . $truyen['ngay_tao'] . '</p>';
-				echo '</div>';
-				echo '</div>';
-				echo '</div>';
-			}
-			echo '</div>';
-		}
-		?>
 
 		<h1 class="mb-4">Example search</h1>
 
-		<form method="post">
+		<form action="ket_qua.php" method="POST">
 			<div class="row bg-light px-2">
 				<div class="col-12">
 					<h5 class="mb-2">Tình trạng:</h5>
 					<div class="row">
 						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]" value="completed">
+							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
+								value="completed">
 							<label class="form-check-label form-check-label-primary" for="completed">Hoàn thành</label>
 						</div>
 						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]" value="ongoing">
+							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
+								value="ongoing">
 							<label class="form-check-label form-check-label-primary" for="ongoing">Còn tiếp</label>
 						</div>
 						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]" value="suspended">
+							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
+								value="suspended">
 							<label class="form-check-label form-check-label-primary" for="suspended">Tạm ngưng</label>
 						</div>
 						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]" value="dropped">
+							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
+								value="dropped">
 							<label class="form-check-label form-check-label-primary" for="unverified">Chưa xác minh</label>
 						</div>
 					</div>
@@ -173,65 +84,6 @@
 					</div>
 
 					<!-- FAKE VÀI CÁI TAG -->
-
-					<!-- ĐIỀN CỨNG -->
-					<!-- <h6 class="mb-2 tag-group-title">Đánh giá</h6>
-					<div class="row">
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="1star">1 sao</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="2star">2 sao</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="3star">3 sao</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="4star">4 sao</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="5star">5 sao</label>
-						</div>
-					</div>
-
-					<h6 class="my-2 tag-group-title">Thời không</h6>
-					<div class="row">
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="xuyenviet">Xuyên Việt</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" id="xuyenvethegioicu">
-							<label class="form-check-label form-check-label-primary" for="xuyenvethegioicu">Xuyên về thế giới
-								cũ</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="xuyenthu">Xuyên thư</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="xuyenkhong">Xuyên không</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" id="codai_xuyentuonglai">
-							<label class="form-check-label form-check-label-primary" for="codai_xuyentuonglai">Cổ đại xuyên tương
-								lai</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="daiduong">Đại đường</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]">
-							<label class="form-check-label form-check-label-primary" for="danquoc">Dân quốc</label>
-						</div>
-					</div> -->
 
 					<!-- LẤY TỪ DB -->
 					<!-- FAKE DATA -->
@@ -453,7 +305,7 @@
 						}
 						echo '</div>';
 					}
-					?>	
+					?>
 				</div>
 
 				<div class="col-12 mt-3">
