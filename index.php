@@ -38,6 +38,80 @@
 		// echo '<pre>';
 		// print(json_encode($data, JSON_PRETTY_PRINT));
 		// echo '</pre>';
+		
+		$truyen_tim_duoc = [];
+		// lấy dữ liệu từ form
+		$tinh_trang_form = $_POST['tinh_trang'] ?? [];
+		$ending_form = $_POST['ending'] ?? [];
+		$tags_form = $_POST['tags'] ?? [];
+		$ten_truyen_form = $_POST['ten_truyen'] ?? '';
+
+		if (isset($_POST) && !empty($_POST)) {
+			// lặp qua tất cả các truyện
+			foreach ($data as $truyen) {
+				// lấy tình trạng của truyện
+				$tinh_trang = $truyen['tinh_trang'];
+				// lấy kết thúc của truyện
+				$ending = $truyen['ending'];
+				// lấy tag của truyện
+				$tags = $truyen['tags'];
+				// lấy tên truyện
+				$ten_truyen = $truyen['ten_truyen'];
+
+
+				// kiểm tra tình trạng
+				$check_tinh_trang = false;
+				// kiểm tra nếu tất cả các tình trạng của form có trong tình trạng của truyện thì đánh dấu là true
+				
+
+				// kiểm tra kết thúc
+				$check_ending = false;
+				// kiểm tra nếu tất cả các kết thúc của form có trong kết thúc của truyện thì đánh dấu là true
+				
+
+				// kiểm tra tag
+				$check_tags = true;
+				// kiểm tra nếu tất cả các tag của form có trong tag của truyện thì đánh dấu là true
+				if (count($tags_form) > 0) {
+					foreach ($tags_form as $item) {
+						if (!in_array($item, $tags)) {
+							$check_tags = false;
+							break;
+						}
+					}
+				}
+
+				// kiểm tra tên truyện
+				$check_ten_truyen = true;
+				// kiểm tra nếu tên truyện chứa tên truyện form thì đánh dấu là true
+				if (strlen($ten_truyen_form) > 0) {
+					if (!strpos($ten_truyen, $ten_truyen_form)) {
+						$check_ten_truyen = false;
+					}
+				}
+
+				// nếu tất cả các điều kiện đều đúng thì push vào mảng truyện tìm được
+				if ($check_tinh_trang && $check_ending && $check_tags && $check_ten_truyen) {
+					$truyen_tim_duoc[] = $truyen;
+				}
+			}
+			echo '<h4>DỮ LIỆU TRUYỆN TÌM ĐƯỢC (CÓ ' . count($truyen_tim_duoc) . ' TRUYỆN):</h4>';
+			echo '<div class="row">';
+			foreach ($truyen_tim_duoc as $truyen) {
+				echo '<div class="col-12 col-sm-6 col-md-4 col-lg-3">';
+				echo '<div class="card mb-3">';
+				echo '<div class="card-body">';
+				echo '<h5 class="card-title">' . $truyen['ten_truyen'] . '</h5>';
+				echo '<p class="card-text">Tình trạng: ' . $truyen['tinh_trang'] . '</p>';
+				echo '<p class="card-text">Kết thúc: ' . $truyen['ending'] . '</p>';
+				echo '<p class="card-text">Tags: ' . implode(', ', $truyen['tags']) . '</p>';
+				echo '<p class="card-text">Ngày tạo: ' . $truyen['ngay_tao'] . '</p>';
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
+			}
+			echo '</div>';
+		}
 		?>
 
 		<h1 class="mb-4">Example search</h1>
@@ -415,8 +489,8 @@
 			// lặp qua tất cả các tag là "tag-group-name"
 			$('.tag-group-name').each(function () {
 				const name = $(this).find('label').text();
-				// nếu tên tag chứa giá trị của input tag thì show ra
-				if (name.toLowerCase().includes(val.toLowerCase())) {
+				// nếu tên tag chứa giá trị của input tag hoặc đang được chọn thì hiển thị
+				if (name.toLowerCase().includes(val.toLowerCase()) || $(this).find('input').is(':checked')) {
 					$(this).show();
 				}
 			});
