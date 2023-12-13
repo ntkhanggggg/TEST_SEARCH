@@ -7,67 +7,68 @@
 	<title>Bootstrap demo</title>
 
 	<!-- import Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-		</script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+	</script>
 
 	<!-- import jquery -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
 	<div class="container-xxl">
 
-		<h1 class="mb-4">Example search</h1>
+		<h1 class="mb-1">Example search</h1>
+
+		<a type="button" class="btn btn-primary mb-4" href="ds_truyen.php">
+			Show danh sách truyện
+		</a>
+
+		<?php
+		$array_tinhtrang = [
+			'completed' => 'Hoàn thành',
+			'ongoing' => 'Còn tiếp',
+			'suspended' => 'Tạm ngưng',
+			'dropped' => 'Đã drop',
+			'unverified' => 'Chưa xác minh'
+		];
+		?>
 
 		<form action="ket_qua.php" method="POST">
 			<div class="row bg-light px-2">
 				<div class="col-12">
 					<h5 class="mb-2">Tình trạng:</h5>
 					<div class="row">
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
-								value="completed">
-							<label class="form-check-label form-check-label-primary" for="completed">Hoàn thành</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
-								value="ongoing">
-							<label class="form-check-label form-check-label-primary" for="ongoing">Còn tiếp</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
-								value="suspended">
-							<label class="form-check-label form-check-label-primary" for="suspended">Tạm ngưng</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="tinh_trang[]"
-								value="dropped">
-							<label class="form-check-label form-check-label-primary" for="unverified">Chưa xác minh</label>
-						</div>
+						<?php foreach ($array_tinhtrang as $tinhtrang => $text) { ?>
+							<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
+								<input type="radio" class="form-check-input form-check-input-primary" name="tinh_trang" value="<?php echo $tinhtrang; ?>" id="<?php echo $tinhtrang; ?>">
+								<label class="form-check-label form-check-label-primary" for="<?php echo $tinhtrang; ?>">
+									<?php echo $text; ?>
+								</label>
+							</div>
+						<?php } ?>
 					</div>
 					<hr>
 				</div>
 
+				<?php
+				$array_ending = [
+					'he' => 'HE',
+					'se' => 'SE',
+					'oe' => 'OE',
+				];
+				?>
 				<div class="col-12">
 					<h5 class="mb-2">Kết thúc:</h5>
 					<div class="row">
-						<!-- HE, SE, OE -->
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="ending[]" value="he">
-							<label class="form-check-label form-check-label-primary" for="he">HE</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="ending[]" value="se">
-							<label class="form-check-label form-check-label-primary" for="se">SE</label>
-						</div>
-						<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
-							<input type="checkbox" class="form-check-input form-check-input-primary" name="ending[]" value="oe">
-							<label class="form-check-label form-check-label-primary" for="oe">OE</label>
-						</div>
+						<?php foreach ($array_ending as $ending => $text) { ?>
+							<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3">
+								<input type="radio" class="form-check-input form-check-input-primary" name="ending" value="<?php echo $ending; ?>" id="<?php echo $ending; ?>">
+								<label class="form-check-label form-check-label-primary" for="<?php echo $ending; ?>">
+									<?php echo $text; ?>
+								</label>
+							</div>
+						<?php } ?>
 					</div>
 					<hr>
 				</div>
@@ -298,10 +299,14 @@
 						echo '<h6 class="mb-2 tag-group-title">' . $tag['title'] . '</h6>';
 						echo '<div class="row">';
 						foreach ($tag['values'] as $item) {
-							echo '<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">';
-							echo '<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]" value="' . $item['value'] . '">';
-							echo '<label class="form-check-label form-check-label-primary">' . $item['text'] . '</label>';
-							echo '</div>';
+					?>
+							<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
+								<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]" value="<?php echo $item['value']; ?>" id="<?php echo $item['value']; ?>">
+								<label class="form-check-label form-check-label-primary" for="<?php echo $item['value']; ?>">
+									<?php echo $item['text']; ?>
+								</label>
+							</div>
+					<?php
 						}
 						echo '</div>';
 					}
@@ -332,14 +337,14 @@
 	const btnShowAllTag = $('#btn_show_all');
 	const inpTag = $('#inp_tag');
 
-	inpTag.on('input', function () {
+	inpTag.on('input', function() {
 		// lấy giá trị của input tag
 		const val = $(this).val();
 		if (val.length > 0) {
 			// ẩn tất cả các tag
 			hideAllTag();
 			// lặp qua tất cả các tag là "tag-group-name"
-			$('.tag-group-name').each(function () {
+			$('.tag-group-name').each(function() {
 				const name = $(this).find('label').text();
 				// nếu tên tag chứa giá trị của input tag hoặc đang được chọn thì hiển thị
 				if (name.toLowerCase().includes(val.toLowerCase()) || $(this).find('input').is(':checked')) {
@@ -351,7 +356,7 @@
 		}
 	});
 
-	btnShowAllTag.on('click', function () {
+	btnShowAllTag.on('click', function() {
 		inpTag.val('');
 		showAllTag();
 	});
