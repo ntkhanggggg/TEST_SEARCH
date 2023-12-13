@@ -1,3 +1,12 @@
+<?php
+// import connection
+require_once("./connection.php");
+// import model Tag
+require_once("models/tag.php");
+// import model Category
+require_once("models/category.php");
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -87,247 +96,45 @@
 					<!-- FAKE VÀI CÁI TAG -->
 
 					<!-- LẤY TỪ DB -->
-					<!-- FAKE DATA -->
 					<?php
-					$tags = [
-						[
-							'title' => 'Đánh giá',
-							'values' => [
-								[
-									'text' => '1 sao',
-									'value' => '1star'
-								],
-								[
-									'text' => '2 sao',
-									'value' => '2star'
-								],
-								[
-									'text' => '3 sao',
-									'value' => '3star'
-								],
-								[
-									'text' => '4 sao',
-									'value' => '4star'
-								],
-								[
-									'text' => '5 sao',
-									'value' => '5star'
-								],
-							]
-						],
-						[
-							'title' => 'Thời không',
-							'values' => [
-								[
-									'text' => 'Xuyên Việt',
-									'value' => 'xuyenviet'
-								],
-								[
-									'text' => 'Xuyên về thế giới cũ',
-									'value' => 'xuyenvethegioicu'
-								],
-								[
-									'text' => 'Xuyên thư',
-									'value' => 'xuyenthu'
-								],
-								[
-									'text' => 'Xuyên không',
-									'value' => 'xuyenkhong'
-								],
-								[
-									'text' => 'Cổ đại xuyên tương lai',
-									'value' => 'codai_xuyentuonglai'
-								],
-								[
-									'text' => 'Đại đường',
-									'value' => 'daiduong'
-								],
-								[
-									'text' => 'Dân quốc',
-									'value' => 'danquoc'
-								],
-							]
-						],
-						[
-							'title' => 'Thể loại',
-							'values' => [
-								[
-									'text' => 'Action',
-									'value' => 'action'
-								],
-								[
-									'text' => 'Adventure',
-									'value' => 'adventure'
-								],
-								[
-									'text' => 'Comedy',
-									'value' => 'comedy'
-								],
-								[
-									'text' => 'Drama',
-									'value' => 'drama'
-								],
-								[
-									'text' => 'Fantasy',
-									'value' => 'fantasy'
-								],
-								[
-									'text' => 'Historical',
-									'value' => 'historical'
-								],
-								[
-									'text' => 'Martial Arts',
-									'value' => 'martial_arts'
-								],
-								[
-									'text' => 'Mystery',
-									'value' => 'mystery'
-								],
-								[
-									'text' => 'Romance',
-									'value' => 'romance'
-								],
-								[
-									'text' => 'Sci-fi',
-									'value' => 'sci_fi'
-								],
-								[
-									'text' => 'Supernatural',
-									'value' => 'supernatural'
-								],
-								[
-									'text' => 'Tragedy',
-									'value' => 'tragedy'
-								],
-							]
-						],
-						[
-							'title' => 'Thời gian',
-							'values' => [
-								[
-									'text' => '1 ngày',
-									'value' => '1ngay'
-								],
-								[
-									'text' => '1 tuần',
-									'value' => '1tuan'
-								],
-								[
-									'text' => '1 tháng',
-									'value' => '1thang'
-								],
-								[
-									'text' => '1 năm',
-									'value' => '1nam'
-								],
-								[
-									'text' => '1 thế kỷ',
-									'value' => '1theky'
-								],
-							]
-						],
-						[
-							'title' => 'Độ dài',
-							'values' => [
-								[
-									'text' => '1 chương',
-									'value' => '1chuong'
-								],
-								[
-									'text' => '1 trang',
-									'value' => '1trang'
-								],
-								[
-									'text' => '1 đoạn',
-									'value' => '1doan'
-								],
-								[
-									'text' => '1 câu',
-									'value' => '1cau'
-								],
-								[
-									'text' => '1 từ',
-									'value' => '1tu'
-								],
-							]
-						],
-						[
-							'title' => 'Độ tuổi',
-							'values' => [
-								[
-									'text' => '0+',
-									'value' => '0+'
-								],
-								[
-									'text' => '13+',
-									'value' => '13+'
-								],
-								[
-									'text' => '16+',
-									'value' => '16+'
-								],
-								[
-									'text' => '18+',
-									'value' => '18+'
-								],
-								[
-									'text' => '21+',
-									'value' => '21+'
-								],
-							]
-						],
-						[
-							'title' => 'Giới tính',
-							'values' => [
-								[
-									'text' => 'Nam',
-									'value' => 'nam'
-								],
-								[
-									'text' => 'Nữ',
-									'value' => 'nu'
-								],
-								[
-									'text' => 'Khác',
-									'value' => 'khac'
-								],
-							]
-						]
-					];
-
-					foreach ($tags as $tag) {
-						echo '<h6 class="mb-2 tag-group-title">' . $tag['title'] . '</h6>';
-						echo '<div class="row">';
-						foreach ($tag['values'] as $item) {
+					$allCategory = Category::getAll();
+					foreach ($allCategory as $category) {
 					?>
-							<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
-								<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]" value="<?php echo $item['value']; ?>" id="<?php echo $item['value']; ?>">
-								<label class="form-check-label form-check-label-primary" for="<?php echo $item['value']; ?>">
-									<?php echo $item['text']; ?>
-								</label>
-							</div>
+						<h6 class="mb-2 tag-group-title"><?php echo $category['name']; ?></h6>
+						<div class="row">
+							<?php
+							$tags = Tag::getByCategory($category['id']);
+							foreach ($tags as $tag) {
+							?>
+								<div class="form-check col-12 col-sm-6 col-md-4 col-lg-3 tag-group-name">
+									<input type="checkbox" class="form-check-input form-check-input-primary" name="tags[]" value="<?php echo $tag['id']; ?>" id="<?php echo $tag['id']; ?>">
+									<label class="form-check-label form-check-label-primary" for="<?php echo $tag['id']; ?>">
+										<?php echo $tag['name']; ?>
+									</label>
+								</div>
+							<?php
+							}
+							?>
+						</div>
 					<?php
-						}
-						echo '</div>';
 					}
 					?>
-				</div>
 
-				<div class="col-12 mt-3">
-					<!-- Nhập tên truyện -->
-					<h5 class="mb-2">Tên truyện:</h5>
-					<div class="row">
-						<div class="col-12">
-							<div class="input-group mb-2">
-								<input type="text" class="form-control" id="inp_ten_truyen" placeholder="Tên truyện" name="ten_truyen">
+					<div class="col-12 mt-3">
+						<!-- Nhập tên truyện -->
+						<h5 class="mb-2">Tên truyện:</h5>
+						<div class="row">
+							<div class="col-12">
+								<div class="input-group mb-2">
+									<input type="text" class="form-control" id="inp_ten_truyen" placeholder="Tên truyện" name="ten_truyen">
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
 
-			<button type="submit" class="btn btn-primary mt-3">GÉT GÔ</button>
+				<button type="submit" class="btn btn-primary mt-3">GÉT GÔ</button>
 		</form>
 	</div>
 
